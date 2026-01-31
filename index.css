@@ -1,0 +1,215 @@
+@import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;800&family=Comic+Neue:wght@300;400;700&display=swap');
+
+:root {
+    --primary: #0369A1;
+    --secondary: #0EA5E9;
+    --cta: #22C55E;
+    --bg-soft: #F0F9FF;
+    --text-main: #0C4A6E;
+
+    /* Memphis Colors */
+    --memphis-pink: #FF71CE;
+    --memphis-yellow: #FFCE5C;
+    --memphis-teal: #86CCCA;
+    --memphis-purple: #6A7BB4;
+
+    /* Claymorphism Tokens */
+    --clay-radius: 28px;
+    --clay-border: 4px;
+}
+
+body {
+    font-family: 'Comic Neue', cursive;
+    background-color: var(--bg-soft);
+    color: var(--text-main);
+    overflow-x: hidden;
+}
+
+h1,
+h2,
+h3,
+h4,
+.font-display {
+    font-family: 'Baloo 2', cursive;
+    font-weight: 800;
+}
+
+/* --- Claymorphism Styles --- */
+
+.clay-card {
+    background: white;
+    border-radius: var(--clay-radius);
+    border: var(--clay-border) solid var(--text-main);
+    box-shadow: 8px 8px 0px var(--text-main);
+    transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.clay-card:hover {
+    transform: translate(-4px, -4px);
+    box-shadow: 12px 12px 0px var(--text-main);
+}
+
+.clay-button {
+    position: relative;
+    background: white;
+    border: 4px solid var(--text-main);
+    border-radius: 20px;
+    box-shadow: 0 6px 0 var(--text-main);
+    transition: all 0.1s;
+    cursor: pointer;
+}
+
+.clay-button:active {
+    transform: translateY(4px);
+    box-shadow: 0 2px 0 var(--text-main);
+}
+
+/* Color Variants for Clay Buttons/Cards */
+.clay-blue {
+    background-color: #BAE6FD;
+    border-color: #0369A1;
+    box-shadow: 0 6px 0 #0369A1;
+    color: #0369A1;
+}
+
+.clay-blue:active {
+    box-shadow: 0 2px 0 #0369A1;
+}
+
+.clay-green {
+    background-color: #BBF7D0;
+    border-color: #15803D;
+    box-shadow: 0 6px 0 #15803D;
+    color: #15803D;
+}
+
+.clay-green:active {
+    box-shadow: 0 2px 0 #15803D;
+}
+
+.clay-pink {
+    background-color: #FECDD3;
+    border-color: #BE123C;
+    box-shadow: 0 6px 0 #BE123C;
+    color: #BE123C;
+}
+
+.clay-pink:active {
+    box-shadow: 0 2px 0 #BE123C;
+}
+
+.clay-yellow {
+    background-color: #FEF08A;
+    border-color: #A16207;
+    box-shadow: 0 6px 0 #A16207;
+    color: #A16207;
+}
+
+.clay-yellow:active {
+    box-shadow: 0 2px 0 #A16207;
+}
+
+.clay-purple {
+    background-color: #E9D5FF;
+    border-color: #7E22CE;
+    box-shadow: 0 6px 0 #7E22CE;
+    color: #7E22CE;
+}
+
+.clay-purple:active {
+    box-shadow: 0 2px 0 #7E22CE;
+}
+
+/* --- Memphis Decorations --- */
+
+.memphis-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    opacity: 0.15;
+    pointer-events: none;
+}
+
+.dot-pattern {
+    background-image: radial-gradient(#0C4A6E 2px, transparent 2px);
+    background-size: 32px 32px;
+}
+
+.squiggle {
+    width: 100px;
+    height: 20px;
+    background-color: var(--memphis-pink);
+    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 20'%3E%3Cpath d='M0 10 Q12.5 0 25 10 T50 10 T75 10 T100 10' fill='none' stroke='black' stroke-width='4'/%3E%3C/svg%3E");
+}
+
+/* --- 3D Floating Animations --- */
+
+@keyframes float {
+    0% {
+        transform: translateY(0px) rotate(0deg);
+    }
+
+    50% {
+        transform: translateY(-20px) rotate(5deg);
+    }
+
+    100% {
+        transform: translateY(0px) rotate(0deg);
+    }
+}
+
+.animate-float {
+    animation: float 4s ease-in-out infinite;
+}
+
+.animate-float-slow {
+    animation: float 6s ease-in-out infinite;
+}
+
+.animate-float-fast {
+    animation: float 3s ease-in-out infinite;
+}
+
+/* --- 3D Utilities --- */
+.perspective-1000 {
+    perspective: 1000px;
+}
+
+.transform-style-3d {
+    transform-style: preserve-3d;
+}
+
+.backface-hidden {
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+}
+
+.rotate-y-180 {
+    transform: rotateY(180deg);
+}
+
+/* Grid Layout Improvements */
+.interactive-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+    padding: 1rem;
+}
+
+/* Card Specifics */
+.voc-card {
+    perspective: 1000px;
+    cursor: pointer;
+}
+
+.voc-card-inner {
+    transition: transform 0.6s;
+    transform-style: preserve-3d;
+}
+
+.voc-card:hover .voc-card-inner {
+    transform: rotateY(10deg) rotateX(5deg);
+}

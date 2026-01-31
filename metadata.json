@@ -1,0 +1,7 @@
+{
+  "name": "The Silly Wishes - Interactive Board",
+  "description": "An interactive educational app for Spanish primary students to learn vocabulary from 'The Silly Wishes' theater play with theatrical British audio and fun games.",
+  "requestFramePermissions": [
+    "microphone"
+  ]
+}
