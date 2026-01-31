@@ -52,13 +52,13 @@ const App: React.FC = () => {
     <div className="min-h-screen relative overflow-hidden bg-[#F0F9FF] text-[#0C4A6E] selection:bg-yellow-200">
       {/* Memphis Background & Floating Elements */}
       <div className="memphis-bg dot-pattern"></div>
-      
+
       <div className="absolute top-0 left-0 w-full h-full pointer-events-none">
         <div className="absolute top-[10%] left-[5%] text-8xl animate-float opacity-40">☁️</div>
         <div className="absolute top-[20%] right-[10%] text-9xl animate-float-slow opacity-30">🌈</div>
         <div className="absolute bottom-[20%] left-[8%] text-8xl animate-float-fast opacity-40">⭐</div>
         <div className="absolute bottom-[10%] right-[5%] text-8xl animate-float opacity-30">🎈</div>
-        
+
         {/* Abstract Geometric Shapes (Memphis) */}
         <div className="absolute top-[40%] right-[20%] w-24 h-24 bg-pink-300 rounded-full opacity-20 blur-xl"></div>
         <div className="absolute bottom-[40%] left-[15%] w-32 h-32 bg-yellow-300 rotate-12 opacity-20 blur-xl"></div>
@@ -75,9 +75,9 @@ const App: React.FC = () => {
               <p className="text-sm font-bold opacity-70 mt-1 uppercase tracking-widest">Pizarra Interactiva Mágica</p>
             </div>
           </div>
-          
+
           {mode !== 'menu' && (
-            <button 
+            <button
               onClick={() => setMode('menu')}
               className="clay-button clay-pink px-8 py-3 text-xl font-black flex items-center gap-2"
             >
@@ -97,7 +97,7 @@ const App: React.FC = () => {
 
             {/* GRAND CHALLENGE BUTTON - PREMIUM HUD */}
             <div className="max-w-3xl mx-auto">
-              <button 
+              <button
                 onClick={() => handleStart('All Vocabulary', 'memory')}
                 className="w-full clay-button bg-gradient-to-br from-pink-400 to-rose-500 overflow-hidden text-white p-8 group"
                 style={{ borderRadius: '40px', borderColor: '#0C4A6E', borderWidth: '6px', boxShadow: '0 12px 0 #0C4A6E' }}
@@ -218,7 +218,7 @@ const App: React.FC = () => {
             </div>
           </div>
         )}
-        
+
         {mode === 'flashcards' && (
           <div className="animate-fadeIn max-w-4xl mx-auto">
             <div className="text-center mb-12">
@@ -241,7 +241,7 @@ const App: React.FC = () => {
 
         {mode === 'matching' && (
           <div className="animate-fadeIn max-w-5xl mx-auto">
-             <div className="text-center mb-12">
+            <div className="text-center mb-12">
               <h2 className="text-6xl font-black text-emerald-800">Unir línies</h2>
               <p className="text-2xl font-bold text-gray-600 mt-2">Uneix el dibuix amb la paraula!</p>
             </div>
@@ -270,7 +270,7 @@ const App: React.FC = () => {
                 </div>
               )}
               <p className="text-2xl font-bold text-gray-600 mt-8 italic">"¡Un aplaudiment gegant per a tu!"</p>
-              <button 
+              <button
                 onClick={() => setShowConfetti(false)}
                 className="mt-8 clay-button clay-blue px-12 py-4 text-2xl font-black"
               >
@@ -283,8 +283,8 @@ const App: React.FC = () => {
 
       <footer className="mt-20 px-8 py-12 text-center relative z-10">
         <div className="max-w-4xl mx-auto bg-white/40 backdrop-blur-sm rounded-[3rem] p-8 border-4 border-emerald-100/50">
-           <p className="text-xl font-black text-emerald-800">Escola Ágora, Primary English 2026</p>
-           <p className="text-sm font-bold text-emerald-600/60 mt-2 uppercase tracking-widest">Interactive Theatre English Learning System</p>
+          <p className="text-xl font-black text-emerald-800">Escola Àgora, Primary English 2026</p>
+          <p className="text-sm font-bold text-emerald-600/60 mt-2 uppercase tracking-widest">Interactive Theatre English Learning System</p>
         </div>
       </footer>
 

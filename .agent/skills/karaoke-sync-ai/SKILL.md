@@ -1,48 +1,45 @@
 ---
 name: karaoke-sync-ai
-description: Metodologia per crear reproductors de karaoke amb sincronització automàtica mitjançant Whisper AI i React.
+description: Metodologia per crear reproductors de karaoke amb sincronització automàtica d'àudio, lletra i imatges educatives.
 ---
 
-# Karaoke AI Sync Methodology
+# Karaoke Visual Storytelling Methodology
 
-Aquesta skill documenta el procés de creació de reproductors de música interactius amb lletres sincronitzades automàticament.
+Aquesta skill documenta el procés de creació de reproductors de música interactius on l'àudio, la lletra i el contingut visual (imatges) es sincronitzen per a una experiència educativa immersiva.
 
-## 1. Fase d'Anàlisi d'Àudio (Whisper AI)
-Utilitzem Whisper per obtenir timestamps de precisió quirúrgica.
+## 1. Fase de Preparació Técnica
+### A. Timestamps (Whisper AI)
+Utilitzem Whisper per obtenir els segons exactes de cada frase.
 ```bash
-whisper [nom_arxiu].mp3 --model small --language en --output_format json --word_timestamps True
-```
-Això genera un fitxer `.json` on busquem l'atribut `segments` o `words` per obtenir els segons d'inici de cada frase.
-
-## 2. Implementació en React
-El component ha de gestionar tres pilars:
-
-### A. Estat de Temps Real
-```tsx
-useEffect(() => {
-  const updateTime = () => {
-    const time = audioRef.current.currentTime;
-    // Lògica per trobar l'activeIndex comparant time amb LYRICS_WITH_TIMING
-  };
-  const interval = setInterval(updateTime, 100);
-  return () => clearInterval(interval);
-}, []);
+whisper canço.mp3 --model small --language en --output_format json --word_timestamps True
 ```
 
-### B. Feedback Visual Tàctil (Claymorphism)
-- **Activa**: Escala 1.05, colors vibrants (verd), animacions de bot (bounce).
-- **Passada**: Baixa opacitat (0.4), colors neutres.
-- **Futura**: Opacitat normal, fons blanc o neutre.
-
-### C. Navegació Interactiva
-Permetre que l'usuari cliqui qualsevol frase per canviar el `currentTime` del reproductor:
-```tsx
-const handleLineClick = (index) => {
-  audioRef.current.currentTime = LYRICS_WITH_TIMING[index].time;
-};
+### B. Mapeig de Contingut (Data Schema)
+Estructura l'array per incloure la imatge que correspon a la narrativa de la frase:
+```javascript
+const LYRICS_WITH_TIMING = [
+  { time: 17.12, text: "Save our Forests", img: "/img-forest.png" },
+  { time: 24.60, text: "They clean the air", img: "/img-town.png" },
+];
 ```
 
-## 3. UX Tips per a Nens
-1. **Auto-Scroll**: La línia activa ha de fer scroll automàtic (`scrollIntoView`) cap al centre de la pantalla.
-2. **Visual Cues**: Utilitzar emojis o icones que es moguin per indicar que aquesta és la part que s'ha de cantar.
-3. **Navegació Visual**: Una barra de progrés gran i fàcil d'arrossegar.
+## 2. Implementació Visual en React
+### A. Visor d'Imatges Sincronitzat
+Utilitzem un estat `activeImage` que s'actualitza al mateix temps que la línia de la cançó.
+- **Transicions**: Aplica `transition-opacity duration-500` per evitar canvis bruscs.
+- **Captions Dinàmiques**: Col·loca la frase activa en una caixa destacada sobre la imatge (tipus subtítol premium).
+
+### B. Arquitectura de Dues Columnes (Layout)
+Per a una millor usabilitat en tauletes o pissarres interactives:
+- **Esquerra (Narrativa)**: Visor d'imatges gran (aspect-square o video) i controls de reproducció fixos.
+- **Dreta (Karaoke)**: Llista de lletres scrollable amb `scrollIntoView` automàtic cap al centre.
+
+## 3. Disseny de Contingut (Prompting)
+Perquè les imatges tinguin sentit educatiu, utilitzem un estil visual coherent (p.ex. Claymorphism):
+- **Estil**: "3D claymation style, playful, vibrant colors, child-friendly".
+- **Narrativa**: Adaptar la imatge al significat literal o emocional de la frase per ajudar a la comprensió oral (p.ex. bosc gris vs bosc verd).
+
+## 4. UX i Interactivitat
+1. **Jump-to-Scene**: Clicar a una frase de la lletra no només canvia l'àudio, sinó que actualitza instantàniament la imatge del visor.
+2. **Clay-UI**: Botons grans i tàctils amb ombres suaus i estats de "premut" molt clars per a nens.
+3. **Absència de Text Tècnic**: Elimina qualsevol menció a la tecnologia (IA, segments, etc.) per mantenir la màgia de l'història.
