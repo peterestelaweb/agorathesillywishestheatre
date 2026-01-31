@@ -13,7 +13,7 @@ const GameFlashcards: React.FC<Props> = ({ vocabList }) => {
 
   const handleCardClick = async (item: VocabularyItem) => {
     const isFlipped = flippedIds.has(item.id);
-    
+
     const newFlipped = new Set(flippedIds);
     if (isFlipped) {
       newFlipped.delete(item.id);
@@ -37,13 +37,13 @@ const GameFlashcards: React.FC<Props> = ({ vocabList }) => {
   return (
     <div className="flex flex-col items-center gap-8">
       <div className="flex gap-4">
-        <button 
+        <button
           onClick={() => flipAll(true)}
           className="bg-emerald-500 hover:bg-emerald-600 text-white font-bold py-2 px-6 rounded-full shadow-md transition-all"
         >
           👀 Girar Todas
         </button>
-        <button 
+        <button
           onClick={() => flipAll(false)}
           className="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-6 rounded-full shadow-md transition-all"
         >
@@ -55,24 +55,34 @@ const GameFlashcards: React.FC<Props> = ({ vocabList }) => {
         {vocabList.map((item) => {
           const isFlipped = flippedIds.has(item.id);
           return (
-            <div 
-              key={item.id} 
+            <div
+              key={item.id}
               className="group perspective-1000 w-full aspect-[3/4] cursor-pointer"
               onClick={() => handleCardClick(item)}
             >
               <div className={`relative w-full h-full transition-all duration-700 transform-style-3d ${isFlipped ? 'rotate-y-180' : ''}`}>
-                
+
                 {/* FRONT SIDE (Image Only) */}
                 <div className={`absolute inset-0 w-full h-full backface-hidden ${item.color} rounded-3xl shadow-xl flex flex-col items-center justify-center border-4 border-white`}>
-                  <div className="text-8xl transform group-hover:scale-110 transition-transform duration-300">
-                    {item.icon}
+                  <div className="text-8xl transform group-hover:scale-110 transition-transform duration-300 flex items-center justify-center w-full h-full p-8">
+                    {item.icon.startsWith('/') || item.icon.startsWith('http') ? (
+                      <img src={item.icon} alt={item.word} className="w-full h-full object-contain filter drop-shadow-lg" />
+                    ) : (
+                      item.icon
+                    )}
                   </div>
-                  <p className="mt-4 text-emerald-800/50 font-bold uppercase tracking-widest text-sm">Tap to Reveal</p>
+                  <p className="absolute bottom-6 text-emerald-800/50 font-bold uppercase tracking-widest text-sm">Tap to Reveal</p>
                 </div>
 
                 {/* BACK SIDE (Image + Text) */}
                 <div className={`absolute inset-0 w-full h-full backface-hidden rotate-y-180 bg-white rounded-3xl shadow-xl border-8 border-yellow-300 flex flex-col items-center justify-center p-4 text-center`}>
-                  <div className="text-6xl mb-4">{item.icon}</div>
+                  <div className="text-6xl mb-4 w-32 h-32 flex items-center justify-center">
+                    {item.icon.startsWith('/') || item.icon.startsWith('http') ? (
+                      <img src={item.icon} alt={item.word} className="w-full h-full object-contain" />
+                    ) : (
+                      item.icon
+                    )}
+                  </div>
                   <h3 className="text-2xl font-black text-emerald-800 break-words w-full">{item.word}</h3>
                   <p className="text-lg text-gray-500 font-bold italic mt-2">{item.spanish}</p>
                 </div>

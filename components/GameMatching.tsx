@@ -62,10 +62,10 @@ const GameMatching: React.FC<Props> = ({ vocabList, onComplete }) => {
               onClick={() => handleWordSelect(item.id)}
               disabled={matches.has(item.id)}
               className={`clay-button p-6 px-10 text-3xl font-black transition-all ${matches.has(item.id)
-                  ? 'clay-green opacity-40 pointer-events-none'
-                  : selectedWord === item.id
-                    ? 'clay-blue scale-110 !shadow-[0_12px_0_var(--text-main)] z-10'
-                    : 'bg-white'
+                ? 'clay-green opacity-40 pointer-events-none'
+                : selectedWord === item.id
+                  ? 'clay-blue scale-110 !shadow-[0_12px_0_var(--text-main)] z-10'
+                  : 'bg-white'
                 }`}
             >
               <span className="font-display">{item.word.toUpperCase()}</span>
@@ -80,14 +80,20 @@ const GameMatching: React.FC<Props> = ({ vocabList, onComplete }) => {
               key={item.id}
               onClick={() => handleIconSelect(item.id)}
               disabled={matches.has(item.id)}
-              className={`clay-button p-4 text-7xl transition-all ${matches.has(item.id)
-                  ? 'clay-green opacity-40 pointer-events-none'
-                  : feedback?.id === item.id && feedback.type === 'error'
-                    ? 'clay-pink animate-shake'
-                    : 'bg-white'
+              className={`clay-button p-4 text-7xl transition-all h-32 flex items-center justify-center ${matches.has(item.id)
+                ? 'clay-green opacity-40 pointer-events-none'
+                : feedback?.id === item.id && feedback.type === 'error'
+                  ? 'clay-pink animate-shake'
+                  : 'bg-white'
                 }`}
             >
-              <div className="drop-shadow-md">{item.icon}</div>
+              <div className="drop-shadow-md w-full h-full flex items-center justify-center">
+                {item.icon.startsWith('/') || item.icon.startsWith('http') ? (
+                  <img src={item.icon} alt={item.word} className="w-full h-full object-contain" />
+                ) : (
+                  item.icon
+                )}
+              </div>
             </button>
           ))}
         </div>

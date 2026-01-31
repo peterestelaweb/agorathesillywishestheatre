@@ -80,13 +80,19 @@ const GameSoundQuiz: React.FC<Props> = ({ vocabList, onComplete }) => {
             key={item.id}
             onClick={() => handleOptionClick(item)}
             className={`clay-button p-8 text-8xl flex flex-col items-center justify-center transition-all ${selectedOption === item.id
-                ? item.id === targetItem.id
-                  ? 'clay-green scale-110'
-                  : 'clay-pink animate-shake'
-                : 'bg-white'
+              ? item.id === targetItem.id
+                ? 'clay-green scale-110'
+                : 'clay-pink animate-shake'
+              : 'bg-white'
               }`}
           >
-            <span className="drop-shadow-md">{item.icon}</span>
+            <div className="drop-shadow-md w-32 h-32 flex items-center justify-center">
+              {item.icon.startsWith('/') || item.icon.startsWith('http') ? (
+                <img src={item.icon} alt={item.word} className="w-full h-full object-contain" />
+              ) : (
+                item.icon
+              )}
+            </div>
           </button>
         ))}
       </div>

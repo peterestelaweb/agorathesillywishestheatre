@@ -22,7 +22,13 @@ const VocabularyCard: React.FC<Props> = ({ item }) => {
       className={`voc-card clay-card ${item.color.replace('bg-', 'clay-')} p-10 flex flex-col items-center gap-6 text-center transform active:scale-95 transition-transform`}
     >
       <div className="voc-card-inner flex flex-col items-center gap-4">
-        <div className="text-8xl mb-2 drop-shadow-[0_10px_10px_rgba(0,0,0,0.1)] group-hover:scale-110 transition-transform">{item.icon}</div>
+        <div className="text-8xl mb-2 drop-shadow-[0_10px_10px_rgba(0,0,0,0.1)] group-hover:scale-110 transition-transform w-32 h-32 flex items-center justify-center">
+          {item.icon.startsWith('/') || item.icon.startsWith('http') ? (
+            <img src={item.icon} alt={item.word} className="w-full h-full object-contain" />
+          ) : (
+            item.icon
+          )}
+        </div>
         <h3 className="text-4xl font-black">{item.word}</h3>
         <p className="text-xl font-bold opacity-60 italic">{item.spanish}</p>
         <div className={`mt-4 p-4 rounded-full border-4 border-[#0C4A6E] ${isPlaying ? 'bg-yellow-400 animate-bounce' : 'bg-white'} shadow-[0_4px_0_#0C4A6E]`}>

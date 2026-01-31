@@ -148,7 +148,13 @@ const SceneBuilder: React.FC = () => {
                 onClick={() => handleAddItem(item)}
                 className={`clay-button ${item.color.replace('bg-', 'clay-')} p-4 group`}
               >
-                <span className="text-5xl group-hover:scale-125 transition-transform inline-block mb-1">{item.icon}</span>
+                <span className="text-5xl group-hover:scale-125 transition-transform inline-block mb-1 w-12 h-12 flex items-center justify-center">
+                  {item.icon.startsWith('/') || item.icon.startsWith('http') ? (
+                    <img src={item.icon} alt={item.word} className="w-full h-full object-contain" />
+                  ) : (
+                    item.icon
+                  )}
+                </span>
                 <span className="block text-[10px] font-black text-[#0C4A6E] uppercase">{item.word}</span>
               </button>
             ))}
@@ -159,8 +165,8 @@ const SceneBuilder: React.FC = () => {
         <div
           ref={containerRef}
           className={`flex-1 clay-card relative overflow-hidden transition-all duration-700 ${background === 'forest'
-              ? 'bg-gradient-to-b from-sky-300 via-emerald-100 to-emerald-400'
-              : 'bg-gradient-to-b from-blue-300 via-indigo-100 to-slate-400'
+            ? 'bg-gradient-to-b from-sky-300 via-emerald-100 to-emerald-400'
+            : 'bg-gradient-to-b from-blue-300 via-indigo-100 to-slate-400'
             }`}
         >
           {/* Memphis Decorations & Static Elements */}
@@ -200,7 +206,11 @@ const SceneBuilder: React.FC = () => {
                 text-[10rem] transition-all duration-200
                 ${selectedId === item.uniqueId ? 'scale-125 drop-shadow-[0_0_30px_rgba(255,255,0,0.6)]' : 'drop-shadow-[0_10px_10px_rgba(0,0,0,0.2)] hover:scale-110'}
               `}>
-                {item.icon}
+                {item.icon.startsWith('/') || item.icon.startsWith('http') ? (
+                  <img src={item.icon} alt={item.word} className="w-32 h-32 object-contain" />
+                ) : (
+                  item.icon
+                )}
               </div>
               <div className={`
                 clay-card px-6 py-2 text-xl font-black mt-4 whitespace-nowrap

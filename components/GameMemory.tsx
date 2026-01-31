@@ -138,7 +138,13 @@ const GameMemory: React.FC<Props> = ({ vocabList, onComplete }) => {
                   style={{ transform: 'rotateY(180deg)' }}
                 >
                   {card.type === 'image' ? (
-                    <div className="text-6xl drop-shadow-lg scale-125">{card.content}</div>
+                    <div className="text-6xl drop-shadow-lg scale-125 w-full h-full flex items-center justify-center">
+                      {card.content.startsWith('/') || card.content.startsWith('http') ? (
+                        <img src={card.content} alt="memory card" className="w-full h-full object-contain" />
+                      ) : (
+                        card.content
+                      )}
+                    </div>
                   ) : (
                     <div className="text-2xl font-black text-[#0C4A6E] break-words w-full leading-tight uppercase font-display">{card.content}</div>
                   )}

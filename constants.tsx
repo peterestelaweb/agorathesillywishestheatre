@@ -17,7 +17,7 @@ export const FOOD_VOCAB: VocabularyItem[] = [
   { id: 'f3', word: 'Mushrooms', spanish: 'Setas', category: 'Forest Food', icon: '🍄', color: 'bg-orange-100' },
   { id: 'f4', word: 'Fruit', spanish: 'Fruta', category: 'Forest Food', icon: '🍎', color: 'bg-red-100' },
   { id: 'f5', word: 'Sausages', spanish: 'Salchichas', category: 'Forest Food', icon: '🌭', color: 'bg-rose-100' },
-  { id: 'f6', word: 'Almonds', spanish: 'Almendras', category: 'Forest Food', icon: '🥜', color: 'bg-yellow-100' },
+  { id: 'f6', word: 'Almonds', spanish: 'Almendras', category: 'Forest Food', icon: '/img-almond.png', color: 'bg-yellow-100' },
   { id: 'f7', word: 'Cookies', spanish: 'Galletas', category: 'Forest Food', icon: '🍪', color: 'bg-amber-200' },
 ];
 

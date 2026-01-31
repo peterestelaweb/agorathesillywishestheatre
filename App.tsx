@@ -9,6 +9,7 @@ import SongPractice from './components/SongPractice';
 import SceneBuilder from './components/SceneBuilder';
 import GameFlashcards from './components/GameFlashcards';
 import GameMemory from './components/GameMemory';
+import GameDrama from './components/GameDrama';
 import { playTheatricalAudio } from './services/geminiTTS';
 
 const App: React.FC = () => {
@@ -138,6 +139,18 @@ const App: React.FC = () => {
                 </div>
               </div>
 
+              {/* Drama Games Card (NEW) */}
+              <div className="clay-card p-2 flex flex-col group h-full">
+                <div className="bg-indigo-100 rounded-[2rem] p-8 flex-1 flex flex-col items-center text-center">
+                  <div className="text-8xl mb-6 group-hover:scale-110 transition-transform">🎭</div>
+                  <h3 className="text-3xl font-black text-indigo-800 mb-2">Drama Games</h3>
+                  <p className="font-bold text-indigo-600/70 mb-8">Mímica i Endevinalles</p>
+                  <button onClick={() => setMode('drama')} className="mt-auto w-full clay-button clay-blue py-4 text-2xl font-black">
+                    Jugar! 🍿
+                  </button>
+                </div>
+              </div>
+
               {/* Shopping Category */}
               <div className="clay-card p-2 flex flex-col group h-full">
                 <div className="bg-blue-100 rounded-[2rem] p-6 flex-1 flex flex-col">
@@ -249,6 +262,7 @@ const App: React.FC = () => {
           </div>
         )}
 
+
         {mode === 'listening' && (
           <div className="animate-fadeIn max-w-4xl mx-auto">
             <div className="text-center mb-12">
@@ -256,6 +270,16 @@ const App: React.FC = () => {
               <p className="text-2xl font-bold text-gray-600 mt-2">Escolta i tria!</p>
             </div>
             <div className="clay-card p-12 bg-white"><GameSoundQuiz vocabList={vocabList} onComplete={handleGameComplete} /></div>
+          </div>
+        )}
+
+        {mode === 'drama' && (
+          <div className="animate-fadeIn max-w-6xl mx-auto">
+            <div className="text-center mb-8">
+              <h2 className="text-6xl font-black text-indigo-800">Drama Studio 🎭</h2>
+              <p className="text-2xl font-bold text-gray-600 mt-2">Let's Act & Guess!</p>
+            </div>
+            <div className="clay-card p-8 bg-white/90 backdrop-blur-sm"><GameDrama /></div>
           </div>
         )}
 
