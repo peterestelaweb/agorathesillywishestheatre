@@ -88,6 +88,10 @@ const playSpeechSynthesisFallback = async (text: string): Promise<number> => {
   // Cancel previous speech to avoid overlapping
   window.speechSynthesis.cancel();
 
+  // Normalize text to lowercase to prevent spelling out abbreviations/all-caps words
+  const normalizedText = text.toLowerCase();
+  const utterance = new SpeechSynthesisUtterance(normalizedText);
+
   // Wait for voices to be loaded (essential for consistent voice selection)
   const voices = await new Promise<SpeechSynthesisVoice[]>((resolve) => {
     let voiceList = window.speechSynthesis.getVoices();

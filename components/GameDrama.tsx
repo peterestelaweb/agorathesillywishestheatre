@@ -25,22 +25,22 @@ const CHARACTERS = [
 
 const RIDDLES = [
     {
-        answer: "A TREE",
-        image: "/img-trees.png", // Usamos las imágenes que ya creamos
+        answer: "A tree",
+        image: "/img-trees.png",
         clues: ["I am green and tall.", "I have many leaves.", "Please, don't cut me down!"]
     },
     {
-        answer: "A BEE",
+        answer: "A bee",
         image: "/img-animals.png",
         clues: ["I am very small.", "I can fly.", "I say 'Bzzzzzz'!"]
     },
     {
-        answer: "THE FOREST",
+        answer: "The forest",
         image: "/img-forest.png",
         clues: ["I have many trees.", "Animals live here.", "I am beautiful and green."]
     },
     {
-        answer: "A TOWN",
+        answer: "A town",
         image: "/img-town.png",
         clues: ["People live here.", "There are many houses.", "Sometimes I am smelly!"]
     }
