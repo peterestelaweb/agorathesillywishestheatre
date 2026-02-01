@@ -117,8 +117,6 @@ const playSpeechSynthesisFallback = async (text: string): Promise<number> => {
     }
   });
 
-  const utterance = new SpeechSynthesisUtterance(text);
-
   // Priority order: British English > Any English > Default
   const britishVoice = voices.find(v =>
     (v.lang === 'en-GB' || v.lang === 'en_GB') && v.name.toLowerCase().includes('uk')
