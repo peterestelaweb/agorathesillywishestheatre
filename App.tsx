@@ -12,6 +12,8 @@ import GameFlashcards from './components/GameFlashcards';
 import GameMemory from './components/GameMemory';
 import GameDrama from './components/GameDrama';
 import ZoomControls from './components/ZoomControls';
+import GameWordSearch from './components/GameWordSearch';
+import LogoBranding from './components/LogoBranding';
 import { playTheatricalAudio } from './services/geminiTTS';
 import {
   Palmtree,
@@ -23,7 +25,8 @@ import {
   ChevronRight,
   Sparkles,
   Cloud,
-  Bird
+  Bird,
+  Search
 } from 'lucide-react';
 
 const App: React.FC = () => {
@@ -187,6 +190,27 @@ const App: React.FC = () => {
                     </div>
                   </motion.div>
 
+                  {/* Word Search Section */}
+                  <motion.div
+                    whileHover={{ scale: 1.02 }}
+                    className="clay-card bg-sky-50 p-8 flex flex-col relative overflow-hidden group border-sky-800 border-b-[12px]"
+                  >
+                    <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+                      <Search size={120} />
+                    </div>
+                    <div className="text-center md:text-left h-full flex flex-col">
+                      <div className="text-7xl mb-6">🔍</div>
+                      <h3 className="text-4xl font-black text-sky-900 mb-2 uppercase">WORD SEARCH</h3>
+                      <p className="font-bold text-sky-800/60 mb-8 flex-1">Find the hidden magic words in the grid!</p>
+                      <button
+                        onClick={() => setMode('wordsearch')}
+                        className="island-button btn-blue py-5 text-2xl w-full justify-center"
+                      >
+                        Let's Find <ChevronRight />
+                      </button>
+                    </div>
+                  </motion.div>
+
                   {/* The Song Section - Wide */}
                   <motion.div
                     whileHover={{ scale: 1.01 }}
@@ -284,6 +308,7 @@ const App: React.FC = () => {
               {mode === 'scene-builder' && <div className="clay-card p-8 bg-white/95 backdrop-blur-sm border-emerald-900 border-b-[12px]"><SceneBuilder /></div>}
               {mode === 'song' && <div className="clay-card p-8 bg-white/95 backdrop-blur-sm border-yellow-900 border-b-[12px]"><SongPractice /></div>}
               {mode === 'drama' && <div className="clay-card p-8 bg-white/95 backdrop-blur-sm border-indigo-900 border-b-[12px]"><GameDrama /></div>}
+              {mode === 'wordsearch' && <div className="clay-card p-8 bg-white/95 backdrop-blur-sm border-sky-900 border-b-[12px]"><GameWordSearch /></div>}
 
               {mode === 'presentation' && (
                 <div className="space-y-12">
@@ -377,6 +402,8 @@ const App: React.FC = () => {
       </footer>
       {/* Zoom Controls for Educational Screens */}
       <ZoomControls />
+      {/* Theater Branding Logo */}
+      <LogoBranding />
     </div>
   );
 };

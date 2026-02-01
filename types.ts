@@ -10,4 +10,4 @@ export interface VocabularyItem {
   color: string;
 }
 
-export type GameMode = 'presentation' | 'flashcards' | 'matching' | 'memory' | 'listening' | 'song' | 'scene-builder' | 'menu' | 'drama';
+export type GameMode = 'presentation' | 'flashcards' | 'matching' | 'memory' | 'listening' | 'song' | 'scene-builder' | 'menu' | 'drama' | 'wordsearch';
