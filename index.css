@@ -105,6 +105,53 @@ h4,
     color: #451A03;
 }
 
+/* Clay Color Variants (Consistent with btn- names used in components) */
+.clay-green {
+    background: #4ADE80;
+    box-shadow: 0 8px 0 #166534;
+    border-color: #166534 !important;
+}
+
+.clay-blue {
+    background: #38BDF8;
+    box-shadow: 0 8px 0 #075985;
+    border-color: #075985 !important;
+}
+
+.clay-pink {
+    background: #FB7185;
+    box-shadow: 0 8px 0 #9F1239;
+    border-color: #9F1239 !important;
+}
+
+.clay-yellow {
+    background: #FBBF24;
+    box-shadow: 0 8px 0 #92400E;
+    border-color: #92400E !important;
+}
+
+/* Pulse Animation for CTA buttons */
+@keyframes pulse-clay {
+    0% {
+        transform: scale(1);
+        box-shadow: 0 8px 0 var(--text-main);
+    }
+
+    50% {
+        transform: scale(1.05);
+        box-shadow: 0 12px 20px rgba(74, 222, 128, 0.4);
+    }
+
+    100% {
+        transform: scale(1);
+        box-shadow: 0 8px 0 var(--text-main);
+    }
+}
+
+.animate-pulse-clay {
+    animation: pulse-clay 2s infinite ease-in-out;
+}
+
 /* 3D Floating Animations */
 @keyframes float {
 

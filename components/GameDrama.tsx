@@ -273,10 +273,10 @@ const GameDrama: React.FC = () => {
                     <div className="flex flex-col items-center gap-6 w-full">
                         {clueStep < 4 && (
                             <div className="bg-yellow-100 border-2 border-yellow-400 rounded-full px-8 py-2 animate-bounce flex items-center gap-4">
-                                <span className="text-2xl">👉</span>
+                                <span className="text-2xl animate-bounce">⬇️</span>
                                 <div className="text-left">
-                                    <p className="text-sm font-black text-yellow-800 leading-none">CLICK THE GREEN BUTTON FOR CLUES!</p>
-                                    <p className="text-[10px] font-bold text-yellow-700 opacity-80 uppercase tracking-wider">Clica el botó verd per a obtenir pistes!</p>
+                                    <p className="text-sm font-black text-yellow-800 leading-none">CLICK THE GREEN BUTTON BELOW!</p>
+                                    <p className="text-[10px] font-bold text-yellow-700 opacity-80 uppercase tracking-wider">Clica el botó verd de sota!</p>
                                 </div>
                             </div>
                         )}
@@ -284,8 +284,13 @@ const GameDrama: React.FC = () => {
                             <button onClick={() => setSubMode('menu')} className="clay-button clay-pink px-8 py-4 text-xl font-black">EXIT</button>
 
                             {clueStep < 4 ? (
-                                <button onClick={nextClue} className="clay-button clay-green px-12 py-6 text-3xl font-black flex-1 shadow-2xl transition-transform hover:scale-105 active:scale-95">
-                                    {clueStep === 3 ? 'REVEAL ANSWER! ✨' : 'NEXT CLUE 🔍'}
+                                <button
+                                    onClick={nextClue}
+                                    className={`clay-button clay-green px-12 py-6 text-2xl lg:text-3xl font-black flex-1 shadow-2xl transition-all hover:scale-105 active:scale-95 ${clueStep === 0 ? 'animate-pulse-clay ring-4 ring-green-400 ring-offset-4' : ''}`}
+                                >
+                                    {clueStep === 0 ? 'START GAME & GET CLUE! 🔍' :
+                                        clueStep === 3 ? 'REVEAL ANSWER! ✨' :
+                                            'NEXT CLUE 🔍'}
                                 </button>
                             ) : (
                                 <button onClick={nextRiddle} className="clay-button clay-yellow px-12 py-6 text-3xl font-black flex-1 animate-bounce">
