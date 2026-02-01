@@ -49,7 +49,7 @@ const ZoomControls: React.FC = () => {
     const percentage = Math.round(zoomLevel * 100);
 
     return (
-        <div className="fixed bottom-6 right-6 z-[9999] flex flex-col gap-2 bg-white/95 backdrop-blur-sm rounded-2xl p-3 shadow-2xl border-4 border-[#0C4A6E]">
+        <div className="fixed top-6 right-6 z-[9999] flex flex-col gap-2 bg-white/95 backdrop-blur-sm rounded-2xl p-3 shadow-2xl border-4 border-[#0C4A6E]">
             <button
                 onClick={zoomIn}
                 disabled={zoomLevel >= maxZoom}

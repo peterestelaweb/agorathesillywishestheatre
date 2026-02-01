@@ -12,16 +12,22 @@
     --zoom-scale: 1;
 }
 
+html {
+    overflow-x: hidden;
+}
+
 body {
     font-family: 'Baloo 2', cursive;
     background-color: #BAE6FD;
     color: var(--text-main);
     overflow-x: hidden;
     margin: 0;
+}
+
+#root {
     transform: scale(var(--zoom-scale));
-    transform-origin: top left;
-    width: calc(100% / var(--zoom-scale));
-    height: calc(100% / var(--zoom-scale));
+    transform-origin: top center;
+    min-height: 100vh;
 }
 
 h1,
