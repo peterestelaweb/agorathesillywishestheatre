@@ -231,8 +231,14 @@ const GameDrama: React.FC = () => {
             )}
 
             {subMode === 'riddles' && (
-                <div className="w-full max-w-4xl text-center space-y-8">
-                    <h2 className="text-5xl font-black text-purple-800 font-display">WHO AM I? 🤔</h2>
+                <div className="w-full max-w-4xl text-center space-y-4">
+                    <div className="space-y-2">
+                        <h2 className="text-5xl font-black text-purple-800 font-display">WHO AM I? 🤔</h2>
+                        <div className="inline-flex flex-col bg-white/50 backdrop-blur-sm px-6 py-2 rounded-2xl border-2 border-purple-200 shadow-sm">
+                            <p className="text-lg font-black text-purple-900 leading-tight italic">Mystery Character Game!</p>
+                            <p className="text-xs font-bold text-purple-800/60 uppercase tracking-widest">Endevina el personatge amb les pistes!</p>
+                        </div>
+                    </div>
 
                     <div className="clay-card p-8 bg-white min-h-[300px] flex gap-8 items-center text-left">
                         <div className="flex-1 space-y-4">
@@ -245,7 +251,10 @@ const GameDrama: React.FC = () => {
                                     {i < clueStep ? (
                                         <p className="text-3xl font-black text-[#0C4A6E]">💡 {RIDDLES[riddleIndex].clues[i]}</p>
                                     ) : (
-                                        <p className="text-3xl font-black text-gray-300">CLUE {i + 1}</p>
+                                        <div className="flex items-center gap-4 text-gray-300">
+                                            <span className="text-2xl">🔒</span>
+                                            <p className="text-2xl font-black uppercase tracking-widest italic font-display">Locked Clue {i + 1}</p>
+                                        </div>
                                     )}
                                 </div>
                             ))}
@@ -261,18 +270,29 @@ const GameDrama: React.FC = () => {
                         </div>
                     </div>
 
-                    <div className="flex justify-center gap-6">
-                        <button onClick={() => setSubMode('menu')} className="clay-button clay-pink px-8 py-4 text-xl font-black">EXIT</button>
-
-                        {clueStep < 4 ? (
-                            <button onClick={nextClue} className="clay-button clay-green px-12 py-6 text-3xl font-black flex-1 shadow-2xl">
-                                {clueStep === 3 ? 'REVEAL ANSWER! ✨' : 'NEXT CLUE 🔍'}
-                            </button>
-                        ) : (
-                            <button onClick={nextRiddle} className="clay-button clay-yellow px-12 py-6 text-3xl font-black flex-1 animate-bounce">
-                                NEXT MYSTERY ➡️
-                            </button>
+                    <div className="flex flex-col items-center gap-6 w-full">
+                        {clueStep < 4 && (
+                            <div className="bg-yellow-100 border-2 border-yellow-400 rounded-full px-8 py-2 animate-bounce flex items-center gap-4">
+                                <span className="text-2xl">👉</span>
+                                <div className="text-left">
+                                    <p className="text-sm font-black text-yellow-800 leading-none">CLICK THE GREEN BUTTON FOR CLUES!</p>
+                                    <p className="text-[10px] font-bold text-yellow-700 opacity-80 uppercase tracking-wider">Clica el botó verd per a obtenir pistes!</p>
+                                </div>
+                            </div>
                         )}
+                        <div className="flex justify-center gap-6 w-full">
+                            <button onClick={() => setSubMode('menu')} className="clay-button clay-pink px-8 py-4 text-xl font-black">EXIT</button>
+
+                            {clueStep < 4 ? (
+                                <button onClick={nextClue} className="clay-button clay-green px-12 py-6 text-3xl font-black flex-1 shadow-2xl transition-transform hover:scale-105 active:scale-95">
+                                    {clueStep === 3 ? 'REVEAL ANSWER! ✨' : 'NEXT CLUE 🔍'}
+                                </button>
+                            ) : (
+                                <button onClick={nextRiddle} className="clay-button clay-yellow px-12 py-6 text-3xl font-black flex-1 animate-bounce">
+                                    NEXT MYSTERY ➡️
+                                </button>
+                            )}
+                        </div>
                     </div>
                 </div>
             )}

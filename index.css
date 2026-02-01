@@ -1,28 +1,22 @@
-@import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;800&family=Comic+Neue:wght@300;400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;800&family=Outfit:wght@400;700;900&display=swap');
 
 :root {
-    --primary: #0369A1;
-    --secondary: #0EA5E9;
-    --cta: #22C55E;
-    --bg-soft: #F0F9FF;
+    --primary: #0EA5E9;
+    --secondary: #6366F1;
+    --accent: #F43F5E;
+    --island-green: #22C55E;
+    --island-sand: #FEF3C7;
+    --island-water: #38BDF8;
     --text-main: #0C4A6E;
-
-    /* Memphis Colors */
-    --memphis-pink: #FF71CE;
-    --memphis-yellow: #FFCE5C;
-    --memphis-teal: #86CCCA;
-    --memphis-purple: #6A7BB4;
-
-    /* Claymorphism Tokens */
-    --clay-radius: 28px;
-    --clay-border: 4px;
+    --text-glass: rgba(255, 255, 255, 0.8);
 }
 
 body {
-    font-family: 'Comic Neue', cursive;
-    background-color: var(--bg-soft);
+    font-family: 'Baloo 2', cursive;
+    background-color: #BAE6FD;
     color: var(--text-main);
     overflow-x: hidden;
+    margin: 0;
 }
 
 h1,
@@ -30,134 +24,97 @@ h2,
 h3,
 h4,
 .font-display {
-    font-family: 'Baloo 2', cursive;
-    font-weight: 800;
+    font-family: 'Outfit', sans-serif;
+    font-weight: 900;
 }
 
-/* --- Claymorphism Styles --- */
+/* Glassmorphism Classes */
+.glass {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
+}
 
+.glass-dark {
+    background: rgba(12, 74, 110, 0.1);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Claymorphism Redefined for Island Style */
 .clay-card {
     background: white;
-    border-radius: var(--clay-radius);
-    border: var(--clay-border) solid var(--text-main);
-    box-shadow: 8px 8px 0px var(--text-main);
-    transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+    border-radius: 32px;
+    border: 6px solid var(--text-main);
+    box-shadow: 12px 12px 0px var(--text-main);
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 .clay-card:hover {
-    transform: translate(-4px, -4px);
-    box-shadow: 12px 12px 0px var(--text-main);
+    transform: translate(-6px, -6px) scale(1.02);
+    box-shadow: 20px 20px 0px var(--text-main);
 }
 
-.clay-button {
-    position: relative;
+.island-button {
     background: white;
     border: 4px solid var(--text-main);
-    border-radius: 20px;
-    box-shadow: 0 6px 0 var(--text-main);
-    transition: all 0.1s;
+    border-radius: 24px;
+    box-shadow: 0 8px 0 var(--text-main);
+    transition: all 0.2s;
     cursor: pointer;
+    font-weight: 900;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
 }
 
-.clay-button:active {
-    transform: translateY(4px);
+.island-button:active {
+    transform: translateY(6px);
     box-shadow: 0 2px 0 var(--text-main);
 }
 
-/* Color Variants for Clay Buttons/Cards */
-.clay-blue {
-    background-color: #BAE6FD;
-    border-color: #0369A1;
-    box-shadow: 0 6px 0 #0369A1;
-    color: #0369A1;
+/* Specific Island Colors */
+.btn-green {
+    background: #4ADE80;
+    box-shadow: 0 8px 0 #166534;
+    border-color: #166534;
+    color: #064E3B;
 }
 
-.clay-blue:active {
-    box-shadow: 0 2px 0 #0369A1;
+.btn-blue {
+    background: #38BDF8;
+    box-shadow: 0 8px 0 #075985;
+    border-color: #075985;
+    color: #0C4A6E;
 }
 
-.clay-green {
-    background-color: #BBF7D0;
-    border-color: #15803D;
-    box-shadow: 0 6px 0 #15803D;
-    color: #15803D;
+.btn-pink {
+    background: #FB7185;
+    box-shadow: 0 8px 0 #9F1239;
+    border-color: #9F1239;
+    color: #4C0519;
 }
 
-.clay-green:active {
-    box-shadow: 0 2px 0 #15803D;
+.btn-yellow {
+    background: #FBBF24;
+    box-shadow: 0 8px 0 #92400E;
+    border-color: #92400E;
+    color: #451A03;
 }
 
-.clay-pink {
-    background-color: #FECDD3;
-    border-color: #BE123C;
-    box-shadow: 0 6px 0 #BE123C;
-    color: #BE123C;
-}
-
-.clay-pink:active {
-    box-shadow: 0 2px 0 #BE123C;
-}
-
-.clay-yellow {
-    background-color: #FEF08A;
-    border-color: #A16207;
-    box-shadow: 0 6px 0 #A16207;
-    color: #A16207;
-}
-
-.clay-yellow:active {
-    box-shadow: 0 2px 0 #A16207;
-}
-
-.clay-purple {
-    background-color: #E9D5FF;
-    border-color: #7E22CE;
-    box-shadow: 0 6px 0 #7E22CE;
-    color: #7E22CE;
-}
-
-.clay-purple:active {
-    box-shadow: 0 2px 0 #7E22CE;
-}
-
-/* --- Memphis Decorations --- */
-
-.memphis-bg {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: -1;
-    opacity: 0.15;
-    pointer-events: none;
-}
-
-.dot-pattern {
-    background-image: radial-gradient(#0C4A6E 2px, transparent 2px);
-    background-size: 32px 32px;
-}
-
-.squiggle {
-    width: 100px;
-    height: 20px;
-    background-color: var(--memphis-pink);
-    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 20'%3E%3Cpath d='M0 10 Q12.5 0 25 10 T50 10 T75 10 T100 10' fill='none' stroke='black' stroke-width='4'/%3E%3C/svg%3E");
-}
-
-/* --- 3D Floating Animations --- */
-
+/* 3D Floating Animations */
 @keyframes float {
-    0% {
+
+    0%,
+    100% {
         transform: translateY(0px) rotate(0deg);
     }
 
     50% {
-        transform: translateY(-20px) rotate(5deg);
-    }
-
-    100% {
-        transform: translateY(0px) rotate(0deg);
+        transform: translateY(-20px) rotate(3deg);
     }
 }
 
@@ -169,15 +126,16 @@ h4,
     animation: float 6s ease-in-out infinite;
 }
 
-.animate-float-fast {
-    animation: float 3s ease-in-out infinite;
-}
-
-/* --- 3D Utilities --- */
+/* Perspective Utilities */
 .perspective-1000 {
     perspective: 1000px;
 }
 
+.perspective-2000 {
+    perspective: 2000px;
+}
+
+.preserve-3d,
 .transform-style-3d {
     transform-style: preserve-3d;
 }
@@ -187,29 +145,29 @@ h4,
     -webkit-backface-visibility: hidden;
 }
 
-.rotate-y-180 {
-    transform: rotateY(180deg);
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+    width: 12px;
 }
 
-/* Grid Layout Improvements */
-.interactive-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 2rem;
-    padding: 1rem;
+::-webkit-scrollbar-track {
+    background: #F0F9FF;
 }
 
-/* Card Specifics */
-.voc-card {
-    perspective: 1000px;
-    cursor: pointer;
+::-webkit-scrollbar-thumb {
+    background: var(--primary);
+    border-radius: 10px;
+    border: 3px solid #F0F9FF;
 }
 
-.voc-card-inner {
-    transition: transform 0.6s;
-    transform-style: preserve-3d;
+/* Island Shapes */
+.island-land {
+    border-radius: 50% 50% 45% 45% / 60% 60% 40% 40%;
 }
 
-.voc-card:hover .voc-card-inner {
-    transform: rotateY(10deg) rotateX(5deg);
+/* Star Dust Effect */
+.star-dust {
+    background: radial-gradient(circle at center, white 1px, transparent 0);
+    background-size: 24px 24px;
+    opacity: 0.3;
 }
