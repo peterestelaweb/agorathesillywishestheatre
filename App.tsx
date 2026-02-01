@@ -11,6 +11,7 @@ import SceneBuilder from './components/SceneBuilder';
 import GameFlashcards from './components/GameFlashcards';
 import GameMemory from './components/GameMemory';
 import GameDrama from './components/GameDrama';
+import ZoomControls from './components/ZoomControls';
 import { playTheatricalAudio } from './services/geminiTTS';
 import {
   Palmtree,
@@ -374,6 +375,8 @@ const App: React.FC = () => {
           <p className="text-sm font-bold text-indigo-800 opacity-60 uppercase tracking-widest mt-2">Primary English 2026 • Interactive Theatre Experience</p>
         </div>
       </footer>
+      {/* Zoom Controls for Educational Screens */}
+      <ZoomControls />
     </div>
   );
 };

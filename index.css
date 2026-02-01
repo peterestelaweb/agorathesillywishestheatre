@@ -9,6 +9,7 @@
     --island-water: #38BDF8;
     --text-main: #0C4A6E;
     --text-glass: rgba(255, 255, 255, 0.8);
+    --zoom-scale: 1;
 }
 
 body {
@@ -17,6 +18,10 @@ body {
     color: var(--text-main);
     overflow-x: hidden;
     margin: 0;
+    transform: scale(var(--zoom-scale));
+    transform-origin: top left;
+    width: calc(100% / var(--zoom-scale));
+    height: calc(100% / var(--zoom-scale));
 }
 
 h1,
