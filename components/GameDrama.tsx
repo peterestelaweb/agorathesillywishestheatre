@@ -8,7 +8,7 @@ type DramaGameMode = 'menu' | 'director' | 'riddles';
 const EMOTIONS = [
     { text: "HAPPY", emoji: "😄", color: "bg-yellow-400" },
     { text: "SAD", emoji: "😢", color: "bg-blue-400" },
-    { text: "ANGRY", emoji: "rw", color: "bg-red-500" },
+    { text: "ANGRY", emoji: "😠", color: "bg-red-500" },
     { text: "SLEEPY", emoji: "😴", color: "bg-purple-400" },
     { text: "SCARED", emoji: "😱", color: "bg-indigo-400" },
     { text: "STRONG", emoji: "💪", color: "bg-orange-400" }

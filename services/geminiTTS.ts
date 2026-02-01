@@ -33,29 +33,35 @@ const decodeAudioData = async (
  * Reprodueix àudio teatral i retorna la durada en mil·lisegons
  */
 export const playTheatricalAudio = async (word: string, isSong: boolean = false): Promise<number> => {
-  const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+  const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
+
+  // Fallback to local SpeechSynthesis if no API key
+  if (!apiKey || apiKey === 'PLACEHOLDER_API_KEY') {
+    return playSpeechSynthesisFallback(word);
+  }
+
+  const ai = new GoogleGenAI(apiKey);
   const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)({ sampleRate: 24000 });
-  
+
   try {
-    const prompt = isSong 
+    const prompt = isSong
       ? `Perform this song lyric with a rhythmic, musical and very theatrical British accent, as if you were in a professional musical play: "${word}"`
       : `Say enthusiastically and theatrically with a clear British accent: "${word}"`;
-    
-    const response = await ai.models.generateContent({
-      model: "gemini-2.5-flash-preview-tts",
+
+    const response = await ai.getGenerativeModel({ model: "gemini-1.5-flash" }).generateContent({
       contents: [{ parts: [{ text: prompt }] }],
-      config: {
+      generationConfig: {
         responseModalities: [Modality.AUDIO],
         speechConfig: {
           voiceConfig: {
-            prebuiltVoiceConfig: { voiceName: 'Kore' }, 
+            prebuiltVoiceConfig: { voiceName: 'Kore' },
           },
         },
       },
     });
 
-    const base64Audio = response.candidates?.[0]?.content?.parts?.[0]?.inlineData?.data;
-    if (!base64Audio) return 0;
+    const base64Audio = response.response.candidates?.[0]?.content?.parts?.[0]?.inlineData?.data;
+    if (!base64Audio) throw new Error("No audio data");
 
     const audioBuffer = await decodeAudioData(
       decode(base64Audio),
@@ -69,10 +75,66 @@ export const playTheatricalAudio = async (word: string, isSong: boolean = false)
     source.connect(audioContext.destination);
     source.start();
 
-    // Retornem la durada en ms + un petit marge
     return (audioBuffer.duration * 1000) + 100;
   } catch (error) {
-    console.error("TTS Error:", error);
-    return 2000; // fallback
+    console.error("Gemini TTS Error, falling back:", error);
+    return await playSpeechSynthesisFallback(word);
   }
+};
+
+const playSpeechSynthesisFallback = async (text: string): Promise<number> => {
+  if (!window.speechSynthesis) return 2000;
+
+  // Cancel previous speech to avoid overlapping
+  window.speechSynthesis.cancel();
+
+  // Wait for voices to be loaded (essential for consistent voice selection)
+  const voices = await new Promise<SpeechSynthesisVoice[]>((resolve) => {
+    let voiceList = window.speechSynthesis.getVoices();
+
+    if (voiceList.length > 0) {
+      resolve(voiceList);
+    } else {
+      // Voices not loaded yet, wait for the event
+      const handleVoicesChanged = () => {
+        voiceList = window.speechSynthesis.getVoices();
+        if (voiceList.length > 0) {
+          window.speechSynthesis.removeEventListener('voiceschanged', handleVoicesChanged);
+          resolve(voiceList);
+        }
+      };
+      window.speechSynthesis.addEventListener('voiceschanged', handleVoicesChanged);
+
+      // Fallback timeout in case voices never load
+      setTimeout(() => {
+        window.speechSynthesis.removeEventListener('voiceschanged', handleVoicesChanged);
+        resolve(window.speechSynthesis.getVoices());
+      }, 1000);
+    }
+  });
+
+  const utterance = new SpeechSynthesisUtterance(text);
+
+  // Priority order: British English > Any English > Default
+  const britishVoice = voices.find(v =>
+    (v.lang === 'en-GB' || v.lang === 'en_GB') && v.name.toLowerCase().includes('uk')
+  ) || voices.find(v =>
+    v.lang === 'en-GB' || v.lang === 'en_GB'
+  ) || voices.find(v =>
+    v.lang.startsWith('en-') || v.lang.startsWith('en_')
+  );
+
+  if (britishVoice) {
+    utterance.voice = britishVoice;
+    console.log('Using voice:', britishVoice.name, britishVoice.lang);
+  } else {
+    console.warn('No British voice found, using default with lang=en-GB');
+  }
+
+  utterance.lang = 'en-GB';
+  utterance.rate = 0.9;
+  utterance.pitch = 1.1;
+
+  window.speechSynthesis.speak(utterance);
+  return 2000;
 };
