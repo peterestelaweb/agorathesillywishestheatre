@@ -59,6 +59,18 @@ const GameWordSearch: React.FC = () => {
         return cells;
     };
 
+    // Get cell from touch coordinates
+    const getCellFromTouch = (touch: Touch): { r: number, c: number } | null => {
+        const element = document.elementFromPoint(touch.clientX, touch.clientY);
+        if (!element) return null;
+
+        const cellKey = element.getAttribute('data-cell');
+        if (!cellKey) return null;
+
+        const [r, c] = cellKey.split('-').map(Number);
+        return { r, c };
+    };
+
     const handleMouseDown = (r: number, c: number) => {
         setIsSelecting(true);
         setStartPos({ r, c });
@@ -70,6 +82,29 @@ const GameWordSearch: React.FC = () => {
         const newSelection = getCellsBetween(startPos, { r, c });
         if (newSelection.length > 0) {
             setSelection(newSelection);
+        }
+    };
+
+    // Touch handlers
+    const handleTouchStart = (e: React.TouchEvent, r: number, c: number) => {
+        e.preventDefault(); // Prevent scrolling while selecting
+        setIsSelecting(true);
+        setStartPos({ r, c });
+        setSelection([{ r, c }]);
+    };
+
+    const handleTouchMove = (e: React.TouchEvent) => {
+        if (!isSelecting || !startPos) return;
+        e.preventDefault(); // Prevent scrolling
+
+        const touch = e.touches[0];
+        const cell = getCellFromTouch(touch);
+
+        if (cell) {
+            const newSelection = getCellsBetween(startPos, cell);
+            if (newSelection.length > 0) {
+                setSelection(newSelection);
+            }
         }
     };
 
@@ -103,7 +138,13 @@ const GameWordSearch: React.FC = () => {
 
     useEffect(() => {
         window.addEventListener('mouseup', handleMouseUp);
-        return () => window.removeEventListener('mouseup', handleMouseUp);
+        window.addEventListener('touchend', handleMouseUp);
+        window.addEventListener('touchcancel', handleMouseUp);
+        return () => {
+            window.removeEventListener('mouseup', handleMouseUp);
+            window.removeEventListener('touchend', handleMouseUp);
+            window.removeEventListener('touchcancel', handleMouseUp);
+        };
     }, [handleMouseUp]);
 
     const isCellSelected = (r: number, c: number) => {
@@ -139,8 +180,8 @@ const GameWordSearch: React.FC = () => {
                         <div
                             key={word}
                             className={`p-3 rounded-xl border-2 font-black transition-all duration-300 flex items-center gap-2 ${foundWords.includes(word)
-                                    ? 'bg-emerald-100 border-emerald-400 text-emerald-700 opacity-50 line-through scale-95'
-                                    : 'bg-white border-indigo-200 text-indigo-900 shadow-sm'
+                                ? 'bg-emerald-100 border-emerald-400 text-emerald-700 opacity-50 line-through scale-95'
+                                : 'bg-white border-indigo-200 text-indigo-900 shadow-sm'
                                 }`}
                         >
                             {foundWords.includes(word) ? <CheckCircle2 size={18} /> : <div className="w-[18px]" />}
@@ -152,11 +193,13 @@ const GameWordSearch: React.FC = () => {
                 {/* Grid */}
                 <div
                     ref={containerRef}
+                    onTouchMove={handleTouchMove}
                     className="grid grid-cols-15 gap-1 p-4 bg-white/80 backdrop-blur-sm rounded-[2rem] border-4 border-indigo-900 shadow-2xl relative overflow-hidden"
                     style={{
                         gridTemplateColumns: 'repeat(15, minmax(0, 1fr))',
                         width: 'min(90vw, 600px)',
-                        aspectRatio: '1/1'
+                        aspectRatio: '1/1',
+                        touchAction: 'none' // Prevent default touch behaviors
                     }}
                 >
                     {GRID_DATA.map((row, r) => (
@@ -167,8 +210,10 @@ const GameWordSearch: React.FC = () => {
                             return (
                                 <div
                                     key={`${r}-${c}`}
+                                    data-cell={`${r}-${c}`}
                                     onMouseDown={() => handleMouseDown(r, c)}
                                     onMouseEnter={() => handleMouseEnter(r, c)}
+                                    onTouchStart={(e) => handleTouchStart(e, r, c)}
                                     className={`
                                         flex items-center justify-center text-sm md:text-lg font-black rounded-md cursor-pointer transition-colors duration-150
                                         ${isPerm.length > 0 ? 'bg-pink-100 text-pink-600' : ''}
