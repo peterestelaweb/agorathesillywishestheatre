@@ -280,27 +280,34 @@ const GameWordSearch: React.FC = () => {
                     const cellRect = cellElement.getBoundingClientRect();
                     const wordRect = wordElement.getBoundingClientRect();
 
-                    // Calculate center position of the target word
-                    const centerX = wordRect.left + (wordRect.width / 2) - (cellRect.width / 2);
-                    const centerY = wordRect.top + (wordRect.height / 2) - (cellRect.height / 2);
+                    // Calculate the exact travel distance from cell to word center
+                    const targetX = wordRect.left + (wordRect.width / 2) - (cellRect.width / 2);
+                    const targetY = wordRect.top + (wordRect.height / 2) - (cellRect.height / 2);
+                    const deltaX = targetX - cellRect.left;
+                    const deltaY = targetY - cellRect.top;
 
                     return (
                         <motion.div
                             key={animLetter.id}
-                            initial={{
+                            style={{
                                 position: 'fixed',
                                 left: cellRect.left,
                                 top: cellRect.top,
                                 width: cellRect.width,
                                 height: cellRect.height,
+                                pointerEvents: 'none',
+                                zIndex: 1000
+                            }}
+                            initial={{
+                                x: 0,
+                                y: 0,
                                 scale: 1,
                                 rotateZ: 0,
                                 rotateY: 0,
-                                zIndex: 1000
                             }}
                             animate={{
-                                left: centerX,
-                                top: centerY,
+                                x: deltaX,
+                                y: deltaY,
                                 scale: [1, 1.8, 0.8],
                                 rotateZ: [0, 360, 720],
                                 rotateY: [0, 180, 360],
@@ -315,10 +322,6 @@ const GameWordSearch: React.FC = () => {
                                 ease: [0.34, 1.56, 0.64, 1] // Bouncy easing
                             }}
                             className="flex items-center justify-center text-lg md:text-2xl font-black rounded-md bg-gradient-to-br from-pink-400 to-purple-500 text-white shadow-2xl"
-                            style={{
-                                pointerEvents: 'none',
-                                transformStyle: 'preserve-3d',
-                            }}
                         >
                             {animLetter.letter}
                         </motion.div>
