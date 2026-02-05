@@ -1,5 +1,6 @@
 
 import React, { useState, useEffect, useCallback, useRef } from 'react';
+import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Search, CheckCircle2, Trophy, RotateCcw } from 'lucide-react';
 import confetti from 'canvas-confetti';
@@ -265,69 +266,72 @@ const GameWordSearch: React.FC = () => {
             </div>
 
             {/* Animating Letters Layer - 3D Flying Effect */}
-            <AnimatePresence>
-                {animatingLetters.map((animLetter) => {
-                    // Get the grid cell position
-                    const cellElement = containerRef.current?.querySelector(
-                        `[data-cell="${animLetter.r}-${animLetter.c}"]`
-                    );
+            {typeof document !== 'undefined' && createPortal(
+                <AnimatePresence>
+                    {animatingLetters.map((animLetter) => {
+                        // Get the grid cell position
+                        const cellElement = containerRef.current?.querySelector(
+                            `[data-cell="${animLetter.r}-${animLetter.c}"]`
+                        );
 
-                    // Get the target word element position
-                    const wordElement = wordListRef.current[animLetter.word];
+                        // Get the target word element position
+                        const wordElement = wordListRef.current[animLetter.word];
 
-                    if (!cellElement || !wordElement) return null;
+                        if (!cellElement || !wordElement) return null;
 
-                    const cellRect = cellElement.getBoundingClientRect();
-                    const wordRect = wordElement.getBoundingClientRect();
+                        const cellRect = cellElement.getBoundingClientRect();
+                        const wordRect = wordElement.getBoundingClientRect();
 
-                    // Calculate the exact travel distance from cell to word center
-                    const targetX = wordRect.left + (wordRect.width / 2) - (cellRect.width / 2);
-                    const targetY = wordRect.top + (wordRect.height / 2) - (cellRect.height / 2);
-                    const deltaX = targetX - cellRect.left;
-                    const deltaY = targetY - cellRect.top;
+                        // Calculate the exact travel distance from cell to word center
+                        const targetX = wordRect.left + (wordRect.width / 2) - (cellRect.width / 2);
+                        const targetY = wordRect.top + (wordRect.height / 2) - (cellRect.height / 2);
+                        const deltaX = targetX - cellRect.left;
+                        const deltaY = targetY - cellRect.top;
 
-                    return (
-                        <motion.div
-                            key={animLetter.id}
-                            style={{
-                                position: 'fixed',
-                                left: cellRect.left,
-                                top: cellRect.top,
-                                width: cellRect.width,
-                                height: cellRect.height,
-                                pointerEvents: 'none',
-                                zIndex: 1000
-                            }}
-                            initial={{
-                                x: 0,
-                                y: 0,
-                                scale: 1,
-                                rotateZ: 0,
-                                rotateY: 0,
-                            }}
-                            animate={{
-                                x: deltaX,
-                                y: deltaY,
-                                scale: [1, 1.8, 0.8],
-                                rotateZ: [0, 360, 720],
-                                rotateY: [0, 180, 360],
-                            }}
-                            exit={{
-                                opacity: 0,
-                                scale: 0.5
-                            }}
-                            transition={{
-                                duration: 1.2,
-                                delay: animLetter.letterIndex * 0.08, // Stagger effect
-                                ease: [0.34, 1.56, 0.64, 1] // Bouncy easing
-                            }}
-                            className="flex items-center justify-center text-lg md:text-2xl font-black rounded-md bg-gradient-to-br from-pink-400 to-purple-500 text-white shadow-2xl"
-                        >
-                            {animLetter.letter}
-                        </motion.div>
-                    );
-                })}
-            </AnimatePresence>
+                        return (
+                            <motion.div
+                                key={animLetter.id}
+                                style={{
+                                    position: 'fixed',
+                                    left: cellRect.left,
+                                    top: cellRect.top,
+                                    width: cellRect.width,
+                                    height: cellRect.height,
+                                    pointerEvents: 'none',
+                                    zIndex: 9999 // Increased z-index for portal
+                                }}
+                                initial={{
+                                    x: 0,
+                                    y: 0,
+                                    scale: 1,
+                                    rotateZ: 0,
+                                    rotateY: 0,
+                                }}
+                                animate={{
+                                    x: deltaX,
+                                    y: deltaY,
+                                    scale: [1, 1.8, 0.8],
+                                    rotateZ: [0, 360, 720],
+                                    rotateY: [0, 180, 360],
+                                }}
+                                exit={{
+                                    opacity: 0,
+                                    scale: 0.5
+                                }}
+                                transition={{
+                                    duration: 1.2,
+                                    delay: animLetter.letterIndex * 0.08, // Stagger effect
+                                    ease: [0.34, 1.56, 0.64, 1] // Bouncy easing
+                                }}
+                                className="flex items-center justify-center text-lg md:text-2xl font-black rounded-md bg-gradient-to-br from-pink-400 to-purple-500 text-white shadow-2xl"
+                            >
+                                {animLetter.letter}
+                            </motion.div>
+                        );
+                    })}
+                </AnimatePresence>,
+                document.body
+            )}
 
             {foundWords.length === WORDS.length && (
                 <motion.div
