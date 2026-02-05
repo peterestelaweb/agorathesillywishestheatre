@@ -1,8 +1,9 @@
 
 import React, { useState, useEffect, useCallback, useRef } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Search, CheckCircle2, Trophy, RotateCcw } from 'lucide-react';
 import confetti from 'canvas-confetti';
+import { playFeedbackSound } from '../services/soundEffects';
 
 const GRID_DATA = [
     ['J', 'K', 'W', 'Z', 'J', 'P', 'T', 'T', 'Y', 'R', 'I', 'T', 'Y', 'S', 'C'],
@@ -34,8 +35,17 @@ const GameWordSearch: React.FC = () => {
     const [isSelecting, setIsSelecting] = useState(false);
     const [startPos, setStartPos] = useState<{ r: number, c: number } | null>(null);
     const [permanentlySelected, setPermanentlySelected] = useState<{ r: number, c: number, word: string }[]>([]);
+    const [animatingLetters, setAnimatingLetters] = useState<{
+        r: number,
+        c: number,
+        letter: string,
+        word: string,
+        letterIndex: number,
+        id: string
+    }[]>([]);
 
     const containerRef = useRef<HTMLDivElement>(null);
+    const wordListRef = useRef<{ [key: string]: HTMLDivElement | null }>({});
 
     const getCellsBetween = (start: { r: number, c: number }, end: { r: number, c: number }) => {
         const dr = end.r - start.r;
@@ -118,9 +128,31 @@ const GameWordSearch: React.FC = () => {
         const foundWord = WORDS.find(w => w === currentWord || w === reversedWord);
 
         if (foundWord && !foundWords.includes(foundWord)) {
+            // Play success sound!
+            playFeedbackSound('success');
+
             setFoundWords(prev => [...prev, foundWord]);
             const newPerms = selection.map(cell => ({ ...cell, word: foundWord }));
             setPermanentlySelected(prev => [...prev, ...newPerms]);
+
+            // Create animating letters for 3D effect
+            const letters = selection.map((cell, index) => ({
+                r: cell.r,
+                c: cell.c,
+                letter: GRID_DATA[cell.r][cell.c],
+                word: foundWord,
+                letterIndex: index,
+                id: `${foundWord}-${cell.r}-${cell.c}-${Date.now()}`
+            }));
+
+            setAnimatingLetters(prev => [...prev, ...letters]);
+
+            // Remove animating letters after animation completes
+            setTimeout(() => {
+                setAnimatingLetters(prev =>
+                    prev.filter(l => !letters.find(nl => nl.id === l.id))
+                );
+            }, 1500); // Animation duration
 
             // Success effect
             if (foundWords.length + 1 === WORDS.length) {
@@ -159,6 +191,7 @@ const GameWordSearch: React.FC = () => {
         setFoundWords([]);
         setPermanentlySelected([]);
         setSelection([]);
+        setAnimatingLetters([]);
     };
 
     return (
@@ -179,8 +212,9 @@ const GameWordSearch: React.FC = () => {
                     {WORDS.map(word => (
                         <div
                             key={word}
+                            ref={(el) => wordListRef.current[word] = el}
                             className={`p-3 rounded-xl border-2 font-black transition-all duration-300 flex items-center gap-2 ${foundWords.includes(word)
-                                ? 'bg-emerald-100 border-emerald-400 text-emerald-700 opacity-50 line-through scale-95'
+                                ? 'bg-emerald-100 border-emerald-400 text-emerald-700 scale-95'
                                 : 'bg-white border-indigo-200 text-indigo-900 shadow-sm'
                                 }`}
                         >
@@ -223,16 +257,74 @@ const GameWordSearch: React.FC = () => {
                                     style={{ border: '1px solid rgba(0,0,0,0.05)' }}
                                 >
                                     {letter}
-                                    {/* Visual strike-through for found words */}
-                                    {isPerm.length > 0 && (
-                                        <div className="absolute w-full h-0.5 bg-pink-400/30 rotate-45 pointer-events-none" />
-                                    )}
                                 </div>
                             );
                         })
                     ))}
                 </div>
             </div>
+
+            {/* Animating Letters Layer - 3D Flying Effect */}
+            <AnimatePresence>
+                {animatingLetters.map((animLetter) => {
+                    // Get the grid cell position
+                    const cellElement = containerRef.current?.querySelector(
+                        `[data-cell="${animLetter.r}-${animLetter.c}"]`
+                    );
+
+                    // Get the target word element position
+                    const wordElement = wordListRef.current[animLetter.word];
+
+                    if (!cellElement || !wordElement) return null;
+
+                    const cellRect = cellElement.getBoundingClientRect();
+                    const wordRect = wordElement.getBoundingClientRect();
+
+                    // Calculate the distance to travel
+                    const deltaX = wordRect.left - cellRect.left;
+                    const deltaY = wordRect.top - cellRect.top;
+
+                    return (
+                        <motion.div
+                            key={animLetter.id}
+                            initial={{
+                                position: 'fixed',
+                                left: cellRect.left,
+                                top: cellRect.top,
+                                width: cellRect.width,
+                                height: cellRect.height,
+                                scale: 1,
+                                rotateZ: 0,
+                                rotateY: 0,
+                                zIndex: 1000
+                            }}
+                            animate={{
+                                left: cellRect.left + deltaX,
+                                top: cellRect.top + deltaY,
+                                scale: [1, 1.8, 0.8],
+                                rotateZ: [0, 360, 720],
+                                rotateY: [0, 180, 360],
+                            }}
+                            exit={{
+                                opacity: 0,
+                                scale: 0.5
+                            }}
+                            transition={{
+                                duration: 1.2,
+                                delay: animLetter.letterIndex * 0.08, // Stagger effect
+                                ease: [0.34, 1.56, 0.64, 1] // Bouncy easing
+                            }}
+                            className="flex items-center justify-center text-lg md:text-2xl font-black rounded-md bg-gradient-to-br from-pink-400 to-purple-500 text-white shadow-2xl"
+                            style={{
+                                pointerEvents: 'none',
+                                transformStyle: 'preserve-3d',
+                            }}
+                        >
+                            {animLetter.letter}
+                        </motion.div>
+                    );
+                })}
+            </AnimatePresence>
 
             {foundWords.length === WORDS.length && (
                 <motion.div
