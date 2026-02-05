@@ -280,10 +280,6 @@ const GameWordSearch: React.FC = () => {
                     const cellRect = cellElement.getBoundingClientRect();
                     const wordRect = wordElement.getBoundingClientRect();
 
-                    // Calculate the distance to travel
-                    const deltaX = wordRect.left - cellRect.left;
-                    const deltaY = wordRect.top - cellRect.top;
-
                     return (
                         <motion.div
                             key={animLetter.id}
@@ -299,8 +295,8 @@ const GameWordSearch: React.FC = () => {
                                 zIndex: 1000
                             }}
                             animate={{
-                                left: cellRect.left + deltaX,
-                                top: cellRect.top + deltaY,
+                                left: wordRect.left,
+                                top: wordRect.top,
                                 scale: [1, 1.8, 0.8],
                                 rotateZ: [0, 360, 720],
                                 rotateY: [0, 180, 360],
