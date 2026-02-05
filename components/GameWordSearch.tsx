@@ -228,10 +228,10 @@ const GameWordSearch: React.FC = () => {
                 <div
                     ref={containerRef}
                     onTouchMove={handleTouchMove}
-                    className="grid grid-cols-15 gap-1 p-4 bg-white/80 backdrop-blur-sm rounded-[2rem] border-4 border-indigo-900 shadow-2xl relative overflow-hidden"
+                    className="grid grid-cols-15 gap-2 p-6 bg-white/80 backdrop-blur-sm rounded-[2rem] border-4 border-indigo-900 shadow-2xl relative overflow-hidden"
                     style={{
                         gridTemplateColumns: 'repeat(15, minmax(0, 1fr))',
-                        width: 'min(90vw, 600px)',
+                        width: 'min(90vw, 800px)',
                         aspectRatio: '1/1',
                         touchAction: 'none' // Prevent default touch behaviors
                     }}
@@ -249,7 +249,7 @@ const GameWordSearch: React.FC = () => {
                                     onMouseEnter={() => handleMouseEnter(r, c)}
                                     onTouchStart={(e) => handleTouchStart(e, r, c)}
                                     className={`
-                                        flex items-center justify-center text-sm md:text-lg font-black rounded-md cursor-pointer transition-colors duration-150
+                                        flex items-center justify-center text-base md:text-2xl font-black rounded-md cursor-pointer transition-colors duration-150
                                         ${isPerm.length > 0 ? 'bg-pink-100 text-pink-600' : ''}
                                         ${isSel ? 'bg-sky-400 text-white scale-110 z-10' : 'text-indigo-900'}
                                         ${!isSel && isPerm.length === 0 ? 'hover:bg-indigo-50' : ''}
@@ -280,6 +280,10 @@ const GameWordSearch: React.FC = () => {
                     const cellRect = cellElement.getBoundingClientRect();
                     const wordRect = wordElement.getBoundingClientRect();
 
+                    // Calculate center position of the target word
+                    const centerX = wordRect.left + (wordRect.width / 2) - (cellRect.width / 2);
+                    const centerY = wordRect.top + (wordRect.height / 2) - (cellRect.height / 2);
+
                     return (
                         <motion.div
                             key={animLetter.id}
@@ -295,8 +299,8 @@ const GameWordSearch: React.FC = () => {
                                 zIndex: 1000
                             }}
                             animate={{
-                                left: wordRect.left,
-                                top: wordRect.top,
+                                left: centerX,
+                                top: centerY,
                                 scale: [1, 1.8, 0.8],
                                 rotateZ: [0, 360, 720],
                                 rotateY: [0, 180, 360],
